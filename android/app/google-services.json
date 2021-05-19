@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "806492757735",
+    "project_id": "appdata-d9ddb",
+    "storage_bucket": "appdata-d9ddb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806492757735:android:2a9f7ca6441cbcc4d98c42",
+        "android_client_info": {
+          "package_name": "rafcitizen.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806492757735-ps9ogtdveeht7pph8j4bluj9df5baf6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCa_cSOIJJNB0kuD3V1FOdAvbBs5hU2kZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "806492757735-ps9ogtdveeht7pph8j4bluj9df5baf6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
