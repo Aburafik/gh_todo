@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_base_app/registrationScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -75,17 +76,38 @@ class _SignInPageState extends State<SignInPage> {
                           email: emailContoller.text,
                           password: passwordContoller.text);
                       if (currentUser != null) {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => MyHomePage()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => MyHomePage(
+                                      userID: currentUser.user.uid,
+                                    )));
                         setState(() {
                           isloading = false;
                         });
                       }
                     } catch (e) {
-                      print(e.toString());
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          content: Text(
+                            e.message,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          title: Text("Exception!"),
+                          actions: [
+                            TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text("OK"))
+                          ],
+                        ),
+                      );
+
+                      setState(() {
+                        isloading = false;
+                      });
                     }
                   }),
-              // isloading ? CircularProgressIndicator() : Text("")
             ],
           ),
         ),
