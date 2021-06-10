@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_base_app/registrationScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -35,7 +34,12 @@ class _SignInPageState extends State<SignInPage> {
               TextField(
                 textAlign: TextAlign.center,
                 controller: emailContoller,
-                decoration: InputDecoration(hintText: "Enter email"),
+                decoration: InputDecoration(
+                    hintText: "Enter email",
+                    suffixIcon: Icon(
+                      Icons.email,
+                      color: Colors.green,
+                    )),
               ),
               SizedBox(height: 15),
               TextField(
@@ -61,11 +65,24 @@ class _SignInPageState extends State<SignInPage> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (_) => SignUpPage()));
                   },
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text("SignUp >>"))),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text("Don't have account?"),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          "SIGNUP",
+                          style: TextStyle(color: Colors.green),
+                        ),
+                      ],
+                    ),
+                  )),
               MaterialButton(
-                  color: Colors.blueGrey,
+                  color: Colors.green,
                   child: Text("SignIn"),
                   onPressed: () async {
                     setState(() {
@@ -94,7 +111,7 @@ class _SignInPageState extends State<SignInPage> {
                             e.message,
                             style: TextStyle(fontSize: 20),
                           ),
-                          title: Text("Exception!"),
+                          title: Text("Exception!kfkkkfk"),
                           actions: [
                             TextButton(
                                 onPressed: () => Navigator.pop(context),
