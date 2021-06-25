@@ -12,3 +12,6 @@ Splash Screen
 
 ![2](https://user-images.githubusercontent.com/60104035/123493297-dcd82a00-d5d0-11eb-812f-72162d9b728c.png)
 Log or Auth Scxreen
+
+![3](https://user-images.githubusercontent.com/60104035/123493793-748a4800-d5d2-11eb-8579-a73cbd1b8d58.png)
+Sign Up page
