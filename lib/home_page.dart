@@ -6,10 +6,13 @@ import 'package:fire_base_app/signIn.dart';
 import 'package:fire_base_app/update_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 final User user = auth.currentUser;
+Color primaryColor = Color(0xffBCBCBC);
+Color titleColor = Color(0xff6E6E6E);
 
 class MyHomePage extends StatefulWidget {
   String userID;
@@ -33,17 +36,12 @@ class _MyHomePageState extends State<MyHomePage> {
     // id = auth.authStateChanges();
   }
 
-  // getUserData() {
-  //   User userData = user;
-  //   userID = userData.uid;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff242424),
       appBar: AppBar(
         actions: [
-          // Text(userEmail),
           IconButton(
               icon: Icon(Icons.logout),
               onPressed: () {
@@ -59,104 +57,124 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 5),
-        child: widget.userID == null
-            ? Center(
-                child: Text("Empty"),
-              )
-            : StreamBuilder<QuerySnapshot>(
-                stream: firebaseFirestore.collection(widget.userID).snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    // firebaseFirestore.doc(userID).id == null
-                    return ListView.builder(
-                        itemCount: snapshot.data.docs.length,
-                        itemBuilder: (context, index) {
-                          var getData = snapshot.data.docs[index];
-                          var dateTime = DateTime.fromMillisecondsSinceEpoch(
-                              snapshot.data.docs[index]['timestamp']);
+        //check if List is empty show image else .....
+        child: StreamBuilder<QuerySnapshot>(
+          stream: firebaseFirestore.collection(widget.userID).snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              // firebaseFirestore.doc(userID).id == null
+              return snapshot.data.docs.isEmpty
+                  ? Image.asset(
+                      "images/addtodo.png",
+                      height: 500,
+                    )
+                  : ListView.builder(
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (context, index) {
+                        var getData = snapshot.data.docs[index];
+                        var dateTime = DateTime.fromMillisecondsSinceEpoch(
+                            snapshot.data.docs[index]['timestamp']);
 
-                          var formatDate = DateFormat("dd-kk:mm")
-                              .format(dateTime)
-                              .toString();
+                        var formatDate = DateFormat(' EEE, d/M/y\n kk:mm')
+                            .format(dateTime)
+                            .toString();
 
-                          return Card(
-                            child: Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ListTile(
-                                    title: Text(
-                                      getData["title"],
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                    subtitle: Text(getData['description']),
+                        return Card(
+                          color: Color(0xff3E3E3E),
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    getData["title"],
+                                    style: TextStyle(
+                                        fontSize: 25, color: primaryColor),
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        child: Row(
-                                          children: [
-                                            IconButton(
-                                                icon: Icon(
-                                                  Icons.edit,
-                                                  color: Colors.green,
-                                                ),
-                                                onPressed: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        UpDateData(
-                                                      snapshot: snapshot.data,
-                                                      index: index,
-                                                    ),
-                                                  );
-                                                }),
-                                            IconButton(
-                                                icon: Icon(
-                                                  Icons.delete,
-                                                  color: Colors.red,
-                                                ),
-                                                onPressed: () async {
-                                                  await FirebaseFirestore
-                                                      .instance
-                                                      .runTransaction((Transaction
-                                                          transaction) async {
-                                                    transaction.delete(snapshot
-                                                        .data
-                                                        .docs[index]
-                                                        .reference);
-                                                  });
-                                                }),
-                                          ],
-                                        ),
+                                  subtitle: Text(
+                                    getData['description'],
+                                    style: TextStyle(
+                                        color: titleColor, fontSize: 20),
+                                  ),
+                                ),
+                                Divider(
+                                  color: Colors.grey,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    //check if formatDate is null
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        formatDate.toString() == null
+                                            ? ""
+                                            : formatDate.toString(),
+                                        style: TextStyle(color: titleColor),
                                       ),
-                                      Text(formatDate.toString() == null
-                                          ? ""
-                                          : formatDate.toString())
-                                    ],
-                                  )
-                                ],
-                              ),
+                                    ),
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          IconButton(
+                                              icon: Icon(
+                                                Icons.edit,
+                                                color: Colors.green,
+                                              ),
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      UpDateData(
+                                                    snapshot: snapshot.data,
+                                                    index: index,
+                                                  ),
+                                                );
+                                              }),
+                                          IconButton(
+                                              icon: Icon(
+                                                Icons.delete,
+                                                color: Colors.red,
+                                              ),
+                                              onPressed: () async {
+                                                await FirebaseFirestore.instance
+                                                    .runTransaction((Transaction
+                                                        transaction) async {
+                                                  transaction.delete(snapshot
+                                                      .data
+                                                      .docs[index]
+                                                      .reference);
+                                                });
+                                              }),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
                             ),
-                          );
-                        });
-                    // : Text("Data is Empty");
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
-              ),
+                          ),
+                        );
+                      });
+              // : Text("Data is Empty");
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         onPressed: () {
           addData(context);
         },
-        child: Icon(Icons.add),
+        child: Icon(
+          FontAwesomeIcons.pen,
+          color: Colors.white,
+        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -183,24 +201,18 @@ class _MyHomePageState extends State<MyHomePage> {
               Spacer(),
               MaterialButton(
                 shape: StadiumBorder(),
-                color: Colors.grey,
+                color: Colors.teal,
                 child: Text("Add Task"),
                 onPressed: () {
-                  // firebaseFirestore.collection(userID).add({});
-                  // if (firebaseFirestore.collection("Todo")== null)
-                  // if (firebaseFirestore.collection(userID).snapshots() =)
                   firebaseFirestore.collection(widget.userID).add({
                     "title": titleController.text,
                     "description": descriptionController.text,
                     "timestamp": Timestamp.now().millisecondsSinceEpoch
                   });
 
-                  // firebaseFirestore.collection(userID).add({
-                  //   "title": titleController.text,
-                  //   "description": descriptionController.text,
-                  //   "timestamp": Timestamp.now().millisecondsSinceEpoch
-                  // });
-                  print(widget.userID);
+                  titleController.clear();
+                  descriptionController.clear();
+
                   Navigator.pop(context);
                 },
               )
