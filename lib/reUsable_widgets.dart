@@ -35,6 +35,7 @@ Row socialMediaHandle() {
   );
 }
 
+///Copy right holder
 Padding copyRight() {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10),
@@ -45,6 +46,7 @@ Padding copyRight() {
   );
 }
 
+///This hold the Sign In an Up title text
 Text authScreenTitle({String title}) {
   return Text(
     title,

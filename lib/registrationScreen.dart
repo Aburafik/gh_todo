@@ -29,7 +29,8 @@ class _SignUpPageState extends State<SignUpPage> {
       body: ModalProgressHUD(
         inAsyncCall: isregistrining,
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
+          margin: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05),
           child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.start,
             // mainAxisAlignment: MainAxisAlignment.center,
@@ -126,32 +127,37 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               Container(
-                width: 120,
+                width: 10,
+                // color: Colors.red,
                 // margin: EdgeInsets.symmetric(vertical: 20),
-                padding: EdgeInsets.only(
-                  right: 200,
-                ),
-                // margin: EdgeInsets.symmetric(horizontal: 50),
+
+                padding: EdgeInsets.symmetric(horizontal: 60),
                 child: MaterialButton(
-                    shape: StadiumBorder(),
                     color: Color(0xffE8D318),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Sign Up",
-                          style: TextStyle(
-                              color: Color(0xff1A1703),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20),
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          size: 30,
-                          color: Color(0xff1A1703),
-                        )
-                      ],
+                    shape: StadiumBorder(),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(),
+                          Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                color: Color(0xff1A1703),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20),
+                          ),
+                          Icon(
+                            Icons.arrow_forward,
+                            size: 30,
+                            color: Color(0xff1A1703),
+                          )
+                        ],
+                      ),
                     ),
                     onPressed: () async {
+                      ///Check if nameController is empty before validating the user
                       if (nameController.text.isEmpty) {
                         return showDialog(
                           context: context,
@@ -173,10 +179,13 @@ class _SignUpPageState extends State<SignUpPage> {
                           isregistrining = true;
                         });
                         try {
+                          ///Create a newUser with email and password
                           final newUser =
                               await auth.createUserWithEmailAndPassword(
                                   email: emailContoller.text,
                                   password: passwordContoller.text);
+
+                          /// check if the new user created is not is ==null move to the home Screen else don't move
                           if (newUser != null) {
                             Navigator.push(
                                 context,
@@ -189,6 +198,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             });
                           }
                         } catch (e) {
+                          setState(() {
+                            isregistrining = false;
+                          });
                           showDialog(
                             context: context,
                             builder: (_) => AlertDialog(
@@ -209,6 +221,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     }),
               ),
               // Spacer(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 5,
+              ),
               socialMediaHandle(),
               copyRight()
             ],

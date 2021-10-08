@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_base_app/registrationScreen.dart';
 import 'package:fire_base_app/signIn.dart';

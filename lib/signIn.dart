@@ -46,13 +46,14 @@ class _SignInPageState extends State<SignInPage> {
         body: ModalProgressHUD(
           inAsyncCall: isLoading,
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
+            margin: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: 60,
+                  height: MediaQuery.of(context).size.height * 0.2,
                 ),
                 authScreenTitle(title: "Sign In"),
                 Padding(
